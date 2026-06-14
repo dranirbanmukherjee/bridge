@@ -623,7 +623,7 @@ def tune_hyperparameters(
     if fixed_mask_size is not None:
         mask_size_choices = [fixed_mask_size]
     else:
-        # For OpenAI (3072): [256, 512, 1024, 2048, 3072]
+        # For OpenAI (3072): [128, 256, 512, 1024, 2048, 3072]
         # For gemma (768): [128, 256, 512, 768]
         # General rule: powers of 2 up to orig_size, plus orig_size itself
         mask_size_choices = [s for s in [128, 256, 512, 1024, 2048, 3072] if s <= orig_size]

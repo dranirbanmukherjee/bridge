@@ -41,10 +41,16 @@ dependencies = [
 openai = ["openai>=1.0"]
 tuning = ["optuna>=3.0"]
 augmentation = ["aiohttp>=3.9.0"]
+baselines = ["sentence-transformers>=2.2"]
+empath = ["empath>=0.89"]
+viz = ["umap-learn>=0.5"]
 all = [
     "openai>=1.0",
     "optuna>=3.0",
     "aiohttp>=3.9.0",
+    "sentence-transformers>=2.2",
+    "empath>=0.89",
+    "umap-learn>=0.5",
 ]
 dev = [
     "pytest>=7.0",
