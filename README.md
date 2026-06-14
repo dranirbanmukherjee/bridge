@@ -337,7 +337,6 @@ Total Loss = Classification Loss (per attribute) + 0.1 * Contrastive Loss
 | `contrastive_weight` | `0.1` | Weight for contrastive loss |
 | `contrastive_temp` | `0.1` | InfoNCE temperature |
 | `num_nuisance_dims` | `5` | Number of nuisance dimensions |
-| `tuner_trials` | `75` | Number of Optuna trials |
 | `seed` | `88` | Global random seed |
 
 ---

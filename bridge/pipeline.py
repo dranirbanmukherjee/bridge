@@ -578,7 +578,6 @@ class BRIDGEPipeline:
             outputs.update(empath_outputs)
 
         # Generate and save word embedding baseline if requested
-        word_baseline_config = None
         if include_word_baseline:
             if region_labels is None or varietal_labels is None:
                 raise ValueError(
@@ -607,14 +606,6 @@ class BRIDGEPipeline:
             for model_results in word_baseline_results.values():
                 outputs.update(model_results.get("outputs", {}))
 
-            # Store config for manifest
-            word_baseline_config = {
-                "model_name": "fasttext-wiki-news-subwords-300",
-                "region_dim": 600,
-                "varietal_dim": 300,
-                "combined_dim": 900,
-            }
-
         # Save manifest
         manifest = {
             "attributes": self.attributes,
@@ -634,9 +625,6 @@ class BRIDGEPipeline:
                 "total_explained_variance": float(empath_diagnostics["total_explained_variance"]),
                 "explained_variance_ratio": empath_diagnostics["explained_variance_ratio"].tolist(),
             }
-        # Add word baseline metadata if generated
-        if word_baseline_config is not None:
-            manifest["word_baseline"] = word_baseline_config
         path = metadata_dir / "manifest.json"
         with open(path, "w", encoding="utf-8") as f:
             json.dump(manifest, f, indent=2)

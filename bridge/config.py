@@ -6,7 +6,7 @@ model architecture, training, and I/O settings.
 """
 
 import json
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, fields
 from typing import Any
 
 
@@ -43,7 +43,6 @@ class BRIDGEConfig:
         epochs_tuning: Max epochs per hyperparameter tuning trial.
         epochs_final: Max epochs for final training.
         early_stopping_patience: Epochs without improvement before stopping.
-        tuner_trials: Number of Optuna hyperparameter search trials.
         validation_split: Fraction of data for validation.
         num_nuisance_dims: Number of nuisance control dimensions. If None, uses
             default (5) with a warning and elbow plot to guide selection.
@@ -76,10 +75,6 @@ class BRIDGEConfig:
     lr_reduce_patience: int = 2
     lr_reduce_factor: float = 0.9
     min_lr: float = 1e-6
-
-    # Tuner settings
-    tuner_trials: int = 75
-    tuner_startup_trials: int = 16
 
     # Data settings
     validation_split: float = 0.1
@@ -123,6 +118,9 @@ class BRIDGEConfig:
     def load(cls, path: str) -> "BRIDGEConfig":
         """Load config from JSON file.
 
+        Unknown keys (e.g. fields removed in a later version) are ignored so
+        configs written by a different BRIDGE version still load.
+
         Args:
             path: Path to the JSON config file.
 
@@ -131,7 +129,8 @@ class BRIDGEConfig:
         """
         with open(path, "r", encoding="utf-8") as f:
             data = json.load(f)
-        return cls(**data)
+        known = {field_def.name for field_def in fields(cls)}
+        return cls(**{key: value for key, value in data.items() if key in known})
 
     @classmethod
     def quick(cls) -> "BRIDGEConfig":
@@ -140,7 +139,7 @@ class BRIDGEConfig:
         Uses reduced epochs and trials for quick feedback loops.
         Suitable for debugging, testing new ideas, or small datasets.
 
-        Settings: epochs_final=50, epochs_tuning=25, tuner_trials=25
+        Settings: epochs_final=50, epochs_tuning=25
 
         Returns:
             BRIDGEConfig with quick iteration settings.
@@ -148,8 +147,6 @@ class BRIDGEConfig:
         return cls(
             epochs_final=50,
             epochs_tuning=25,
-            tuner_trials=25,
-            tuner_startup_trials=10,
         )
 
     @classmethod
@@ -159,7 +156,7 @@ class BRIDGEConfig:
         Balanced settings suitable for most experiments. Provides
         reasonable training time with good model quality.
 
-        Settings: epochs_final=200, epochs_tuning=35, tuner_trials=50
+        Settings: epochs_final=200, epochs_tuning=35
 
         Returns:
             BRIDGEConfig with standard production settings.
@@ -167,8 +164,6 @@ class BRIDGEConfig:
         return cls(
             epochs_final=200,
             epochs_tuning=35,
-            tuner_trials=50,
-            tuner_startup_trials=12,
         )
 
     @classmethod
@@ -178,7 +173,7 @@ class BRIDGEConfig:
         Maximum epochs and trials for best possible model quality.
         Use when model performance is critical and compute time is not.
 
-        Settings: epochs_final=1000, epochs_tuning=50, tuner_trials=75
+        Settings: epochs_final=1000, epochs_tuning=50
 
         Returns:
             BRIDGEConfig with thorough training settings.
@@ -186,8 +181,6 @@ class BRIDGEConfig:
         return cls(
             epochs_final=1000,
             epochs_tuning=50,
-            tuner_trials=75,
-            tuner_startup_trials=16,
         )
 
     @classmethod
