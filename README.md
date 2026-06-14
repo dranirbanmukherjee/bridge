@@ -421,9 +421,9 @@ You are free to share and adapt this material for any purpose, even commercially
 
 ## Authors
 
-- **Anirban Mukherjee** (anirban@avyayamholdings.com) — Principal, Avyayam Holdings
-- **Hannah H. Chang** (hannahchang@smu.edu.sg; *corresponding author*) — Associate Professor of Marketing, Lee Kong Chian School of Business, Singapore Management University
-- **Sachin Gupta** (sg248@cornell.edu) — Henrietta Johnson Louis Professor of Marketing, SC Johnson College of Business, Cornell University
+- [**Anirban Mukherjee**](https://www.anirbanmukherjee.com) (anirban@avyayamholdings.com) — Principal, Avyayam Holdings
+- [**Hannah H. Chang**](https://profhannahchang.github.io) (hannahchang@smu.edu.sg; *corresponding author*) — Associate Professor of Marketing, Lee Kong Chian School of Business, Singapore Management University
+- [**Sachin Gupta**](https://business.cornell.edu/faculty-research/faculty/sg248/) (sg248@cornell.edu) — Henrietta Johnson Louis Professor of Marketing, SC Johnson College of Business, Cornell University
 
 ## Acknowledgments
 
