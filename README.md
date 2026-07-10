@@ -57,7 +57,7 @@ pip install -e ".[all]"
 
 ```bash
 # For local Gemma embeddings (recommended, free)
-pip install sentence-transformers
+pip install -e ".[gemma]"    # equivalently: pip install sentence-transformers
 
 # For OpenAI embeddings
 pip install openai
@@ -90,9 +90,9 @@ pipeline.fit(
 
 # Get attribute-specific embeddings
 embeddings = pipeline.transform()
-print(embeddings["region"].shape)    # (n_samples, 8)
-print(embeddings["varietal"].shape)  # (n_samples, 8)
-print(embeddings["nuisance"].shape)  # (n_samples, 5)
+print(embeddings["region"].shape)    # (n_samples, embedding_units_per_attribute)
+print(embeddings["varietal"].shape)  # (n_samples, embedding_units_per_attribute)
+print(embeddings["nuisance"].shape)  # (n_samples, num_nuisance_dims; 5 by default)
 
 # Export for downstream analysis
 pipeline.export()
@@ -138,9 +138,9 @@ pipeline.fit(
 
 # Get embeddings
 embeddings = pipeline.transform()
-region_emb = embeddings["region"]      # (n_samples, 8)
-varietal_emb = embeddings["varietal"]  # (n_samples, 8)
-nuisance = embeddings["nuisance"]      # (n_samples, 5)
+region_emb = embeddings["region"]      # (n_samples, embedding_units_per_attribute)
+varietal_emb = embeddings["varietal"]  # (n_samples, embedding_units_per_attribute)
+nuisance = embeddings["nuisance"]      # (n_samples, num_nuisance_dims)
 
 # Export all outputs
 pipeline.export()
@@ -200,20 +200,28 @@ hp_dict = tune_hyperparameters(
     n_trials=75,
 )
 
-# 7. Create and train model
-model = BRIDGEModel.from_hp_dict(hp_dict)
+# 7. Create and train model (drop training-only keys before building the model)
+model_hp = {k: v for k, v in hp_dict.items() if k not in ("learning_rate", "weight_decay")}
+model = BRIDGEModel.from_hp_dict(model_hp)
 train_loader, val_loader = prepare_data_loaders(array_3d, labels, batch_size=8)
-model, history = train_model(model, train_loader, val_loader, epochs=1000)
+model, history = train_model(
+    model,
+    train_loader,
+    val_loader,
+    epochs=1000,
+    learning_rate=hp_dict["learning_rate"],
+    weight_decay=hp_dict["weight_decay"],
+)
 
 # 8. Extract representations
 attr_embeddings = extract_representations(model, array_3d)
 
 # 9. Compute nuisance controls
-nuisance, interpretable, singular_values = compute_nuisance_controls(
+nuisance, interpretable, diagnostics = compute_nuisance_controls(
     attribute_embeddings=attr_embeddings,
     full_embedding=embeddings,
     num_nuisance_dims=5,
-)
+)  # diagnostics["singular_values"] holds the SVD spectrum
 ```
 
 ### Command-Line Interface
@@ -331,12 +339,12 @@ Total Loss = Classification Loss (per attribute) + 0.1 * Contrastive Loss
 | `embedding_backend` | `"openai"` | Backend: "openai" or "gemma" (auto-selection prefers gemma when available) |
 | `projection_units` | `128` | Units in projection layer |
 | `embedding_units_per_attribute` | `8` | Embedding dimensions per attribute |
-| `mask_size` | tuned | Input dimensions to use |
+| `mask_size` | `2048` | Input dimensions to use; the tuner searches this unless `fixed_mask_size` is set |
 | `dropout_rate` | `0.125` | Dropout probability |
 | `mini_batch_size` | `10` | Contrastive mini-batch (1 anchor + 9 negatives) |
 | `contrastive_weight` | `0.1` | Weight for contrastive loss |
 | `contrastive_temp` | `0.1` | InfoNCE temperature |
-| `num_nuisance_dims` | `5` | Number of nuisance dimensions |
+| `num_nuisance_dims` | `None` (→ 5) | Number of nuisance dimensions; `None` resolves to 5 with a warning and an elbow plot |
 | `seed` | `88` | Global random seed |
 
 ---
@@ -345,7 +353,7 @@ Total Loss = Classification Loss (per attribute) + 0.1 * Contrastive Loss
 
 | Backend | Model | Dimensions | Cost | Notes |
 |---------|-------|------------|------|-------|
-| `gemma` | embeddinggemma-300m | 768 | Free (local) | Requires `sentence-transformers`; MRL dims: 768, 512, 256, 128 |
+| `gemma` | embeddinggemma-300m | 768 | Free (local) | Requires `sentence-transformers` (the `gemma` extra); MRL dims: 768, 512, 256, 128 |
 | `openai` (config default) | text-embedding-3-large | 3072 | API ($) | Requires API key |
 
 **Note:** When using `backend="auto"` in `generate_embeddings()`, gemma is preferred if `sentence-transformers` is installed.
