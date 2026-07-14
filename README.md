@@ -14,7 +14,7 @@
 
 ## Overview
 
-BRIDGE is a novel analytical method for behavioral research that addresses the stimulus-sampling problem in consumer research by combining foundational AI embeddings with a partitioned deep learning neural network to enable experiments using myriad unaltered real-world product descriptions as stimuli. Specifically, it transforms high-dimensional text embeddings (from models like OpenAI or Gemma) into structured, low-dimensional, **interpretable** attribute-specific representations while simultaneously extracting orthogonal statistical controls for nuisance variables (tone, style, vocabulary, etc.). This enables researchers to examine consumer responses to product attributes while sampling broadly from a large-scale corpus of real-world product descriptions and controlling for unobserved confounds therein.
+BRIDGE is a novel analytical method for behavioral research that addresses the stimulus-sampling problem in consumer research by combining foundational generative AI embeddings with a partitioned feedforward network to enable experiments using myriad unaltered real-world product descriptions as stimuli. Specifically, it transforms high-dimensional text embeddings (from models like OpenAI or Gemma) into structured, low-dimensional, **interpretable** attribute-specific representations while simultaneously extracting orthogonal statistical controls for nuisance variables (tone, style, voice, formality, etc.). This enables researchers to examine consumer responses to product attributes while sampling broadly from a large-scale corpus of real-world product descriptions and controlling for unobserved confounds therein.
 
 ### Key Features
 
@@ -405,12 +405,12 @@ nuisance_emb <- npyLoad("bridge_output/representations/nuisance_embedding.npy")
 ## Citation
 
 ```bibtex
-@article{bridge2025,
+@article{bridge2026,
   title={Behavioral Research Through Interpretable, Dimensionality-reduced
          Generative AI Embeddings (BRIDGE): A Method to Incorporate Real-World
          Stimuli in Consumer Experiments},
   author={Mukherjee, Anirban and Chang, Hannah H. and Gupta, Sachin},
-  year={2025},
+  year={2026},
 }
 ```
 
