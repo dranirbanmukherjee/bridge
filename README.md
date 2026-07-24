@@ -14,7 +14,7 @@
 
 ## Overview
 
-BRIDGE is a novel analytical method for behavioral research that addresses the stimulus-sampling problem in consumer research by combining foundational generative AI embeddings with a partitioned feedforward network to enable experiments using myriad unaltered real-world product descriptions as stimuli. Specifically, it transforms high-dimensional text embeddings (from models like OpenAI or Gemma) into structured, low-dimensional, **interpretable** attribute-specific representations while simultaneously extracting orthogonal statistical controls for nuisance variables (tone, style, voice, formality, etc.). This enables researchers to examine consumer responses to product attributes while sampling broadly from a large-scale corpus of real-world product descriptions and controlling for unobserved confounds therein.
+BRIDGE is a novel analytical method for behavioral research that addresses the stimulus-sampling problem in consumer research by combining foundational generative AI embeddings with a partitioned feedforward network to enable experiments using myriad unaltered real-world product descriptions as stimuli. Specifically, it transforms high-dimensional text embeddings (from models like OpenAI or Gemma) into structured, low-dimensional, interpretable attribute-specific representations while simultaneously extracting orthogonal statistical controls for nuisance variables (tone, style, voice, formality, etc.). This enables researchers to examine consumer responses to product attributes while sampling broadly from a large-scale corpus of real-world product descriptions and controlling for unobserved confounds therein.
 
 ### Key Features
 
@@ -34,6 +34,10 @@ For methodological details and empirical validation, see our paper:
 > **Behavioral Research Through Interpretable, Dimensionality-reduced Generative AI Embeddings (BRIDGE): A Method to Incorporate Real-World Stimuli in Consumer Experiments**
 >
 > Anirban Mukherjee, Hannah H. Chang, and Sachin Gupta
+>
+> *Journal of Marketing Research*, conditionally accepted.
+
+The preprint (including the web appendix) is included in this repository as [`BRIDGE_Preprint.pdf`](BRIDGE_Preprint.pdf) and is also available on [SSRN](https://ssrn.com/abstract=5296429).
 
 ---
 
