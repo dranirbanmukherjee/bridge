@@ -5,8 +5,8 @@ This module provides BERT and RoBERTa baselines that embed attribute labels only
 (not full descriptions) to demonstrate why full description embeddings are necessary.
 
 The baseline embeds only the short attribute labels (e.g., "Pinot Noir", "France Bordeaux")
-rather than the full wine descriptions. This addresses reviewer comments about using
-"off-the-shelf, pre-trained embeddings (e.g., from BERT or RoBERTa)".
+rather than the full wine descriptions. It exists to test whether off-the-shelf,
+pre-trained embeddings (e.g., from BERT or RoBERTa) suffice for the first step.
 
 Example usage:
     from bridge.baselines import TransformerBaseline, generate_transformer_baselines
@@ -44,8 +44,8 @@ class TransformerBaseline:
     BERT/RoBERTa baseline for embedding attribute labels.
 
     Embeds attribute labels (not descriptions) using pre-trained transformer models.
-    This directly addresses the reviewer question: "Could off-the-shelf, pre-trained
-    embeddings (e.g., from BERT or RoBERTa) be used for the first step?"
+    This tests whether off-the-shelf, pre-trained embeddings can substitute for
+    BRIDGE's first step.
 
     The baseline embeds only the attribute labels:
     - Region: "France#####Bordeaux" -> "France Bordeaux" -> embed() -> 768-dim
@@ -296,8 +296,7 @@ class TransformerBaseline:
             "region_encoding": "embed('France Bordeaux') - separator replaced with space",
             "varietal_encoding": "embed('Pinot Noir') - direct embedding",
             "note": (
-                "Baseline using BERT/RoBERTa on attribute labels only (not descriptions). "
-                "Addresses reviewer question about using off-the-shelf pre-trained embeddings."
+                "Baseline using BERT/RoBERTa on attribute labels only (not descriptions)."
             ),
         }
 
@@ -327,9 +326,8 @@ def generate_transformer_baselines(
     Generate BERT and RoBERTa baselines for comparison with BRIDGE.
 
     This function creates baseline embeddings using pre-trained BERT and RoBERTa
-    models on attribute labels only (not full descriptions). This directly addresses
-    the reviewer question: "Could off-the-shelf, pre-trained embeddings (e.g., from
-    BERT or RoBERTa) be used for the first step?"
+    models on attribute labels only (not full descriptions), testing whether
+    off-the-shelf embeddings can substitute for BRIDGE's first step.
 
     Args:
         region_labels: List of region labels in format "country#####province".

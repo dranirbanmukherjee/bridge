@@ -10,8 +10,8 @@ neural network approach. The baseline:
 4. Computes residuals R = E - Ê
 5. Applies SVD to R to get linear nuisance dimensions
 
-This addresses AE Recommendation 3: justify the complexity of the deep neural
-architecture by comparing against simpler linear alternatives.
+It provides a simpler linear alternative against which the added complexity of the
+deep neural architecture can be assessed.
 
 Usage:
     python -m bridge.linear_baseline
