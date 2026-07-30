@@ -35,7 +35,7 @@ For R integration, use export():
     pipeline.export("./output")  # Creates .npy files readable by RcppCNPy
 """
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 __author__ = "Anirban Mukherjee, Hannah H. Chang, and Sachin Gupta"
 
 # Public API

@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "bridge"
-version = "0.1.0"
+version = "0.2.0"
 description = "BRIDGE: Behavioral Research Through Interpretable, Dimensionality-reduced Generative AI Embeddings"
 readme = "README.md"
 license = {text = "CC-BY-SA-4.0"}

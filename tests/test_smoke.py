@@ -8,7 +8,7 @@ import bridge
 
 
 def test_version_and_author():
-    assert bridge.__version__ == "0.1.0"
+    assert bridge.__version__ == "0.2.0"
     assert "Mukherjee" in bridge.__author__
 
 
